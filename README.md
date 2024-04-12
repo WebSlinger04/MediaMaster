@@ -14,6 +14,6 @@ Install the required python packages stored in requirements .txt
 
 # Deployment
 
-run the master.py file with an argument containing a file
+run the master.py file
 
-    python master.py filepath
+    python master.py
