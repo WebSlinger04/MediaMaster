@@ -2,8 +2,10 @@
 A tool written in Python to convert media files between different formats. Is accessible through a GUI using the pygame library.
 
 # Features
-Convert images/and videos to: (png, jpg, jpeg, bmp, WebP, HEIC, gif, tiff, mp4, avi, mov, mkv)
+Convert images/and videos to formats:
+
 Create videos from image sequences
+
 Controlled through a GUI
 
 # Installing
