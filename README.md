@@ -2,7 +2,7 @@
 A tool written in Python to convert media files between different formats. Is accessible through a GUI using the pygame library.
 
 # Features
-Convert images/and videos to formats:
+Convert images/and videos to formats: ()
 
 Create videos from image sequences
 
