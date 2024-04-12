@@ -4,8 +4,8 @@ A tool written in Python to convert media files between different formats. Is ac
 
 # Features
 
-- Displays info about media file
-- Change media files esolution, name, and color space
+- Displays info about media filess
+- Change media files resolution, name, and color space
 - Convert images/and videos to formats: (TBD)
 - Create videos from image sequences
 - Controlled through a GUI
