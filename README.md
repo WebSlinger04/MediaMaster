@@ -1,4 +1,5 @@
-# ANGM-2305-Final
+# MediaMaster
+
 A tool written in Python to convert media files between different formats. Is accessible through a GUI using the pygame library.
 
 # Features
