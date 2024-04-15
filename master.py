@@ -1,5 +1,7 @@
 import pygame
 
+import port
+
 class Shape():
     def __init__(self, pos, size, color, bevel, surface, run_function,id):
         self.surface = surface
@@ -34,7 +36,7 @@ class Text():
         self.surface.blit(text, self.pos)
 
 
-class ArtObjects():
+class GUI():
     def __init__(self,surface):
         self.surface = surface
         self.shapes = []
@@ -46,7 +48,7 @@ class ArtObjects():
             if shape.id != None:
                 if (shape.pos[0] < pos[0] and (shape.pos[0] + shape.size[0]) > pos[0] and 
                     shape.pos[1] < pos[1] and (shape.pos[1] + shape.size[1]) > pos[1]):
-                        self._clear_group_color(shape.id)
+                        self._clear_shape_toggle(shape.id)
                         shape.color = pygame.Color(0,60,60,255)
                         exec(f"{shape.run_function}")
 
@@ -58,10 +60,28 @@ class ArtObjects():
                         return True,text
         return False, None
     
+    def update(self,name,res,color,format):
+        self._clear_shape_toggle("Color_Space")
+        self._clear_shape_toggle("Format")
+        for text in self.text:
+            if text.id != None:
+                if text.id == "Name":
+                    text.text = str(name)
+                if text.id == "X":
+                    text.text = str(res[0])
+                if text.id == "Y":
+                    text.text = str(res[1])
+        for shape in self.shapes:
+            if shape.id != None:
+                if shape.id.split(",")[1] == color:
+                    shape.color = pygame.Color(0,60,60,255)
+                if shape.id.split(",")[1] == format:
+                    shape.color = pygame.Color(0,60,60,255)
+
     def edit_text(self, new_text, text):
         text.text = new_text
 
-    def _clear_group_color(self,id):
+    def _clear_shape_toggle(self,id):
         for shape in self.shapes:
             if str(shape.id).split(",")[0] == str(id).split(",")[0]:
                 shape.color = pygame.Color(0,102,102,255)
@@ -73,7 +93,7 @@ class ArtObjects():
         for shape in self.shapes:
             if shape.id != None:
                 group,id = str(shape.id).split(",")
-                if group != "OS" and shape.color == pygame.Color(0,102,102,255):
+                if group != "OS" and shape.color == pygame.Color(0,60,60,255):
                     self.info[group] = id
         return self.info
 
@@ -92,7 +112,7 @@ class ArtObjects():
             text.draw()
 
 
-def art_init(art):
+def gui_init(art):
         
         art.defineShape(pos=(20,20), size=(360,460), color=pygame.Color(25,25,25,255), bevel=30)
         art.defineShape(pos=(25,88), size=(350,40), color=pygame.Color(40,40,40,255), bevel=20)
@@ -115,7 +135,7 @@ def art_init(art):
         art.defineText(text="Color Space:",pos=(40,201))
         art.defineText(text=f"RGB{" "*13}RGBA{" "*12}Grey",pos=(172,202),size=12)
 
-        art.defineShape(pos=(25,238), size=(350,125), color=pygame.Color(40,40,40,255), bevel=20)
+        art.defineShape(pos=(25,238), size=(350,165), color=pygame.Color(40,40,40,255), bevel=20)
         art.defineShape(pos=(110,245), size=(55,30),id="Format,png")
         art.defineShape(pos=(175,245), size=(55,30),id="Format,jpg")
         art.defineShape(pos=(240,245), size=(55,30),id="Format,jpeg")
@@ -123,27 +143,36 @@ def art_init(art):
         art.defineShape(pos=(45,285), size=(55,30),id="Format,webp")
         art.defineShape(pos=(110,285), size=(55,30),id="Format,heic")
         art.defineShape(pos=(175,285), size=(55,30),id="Format,gif")
-        art.defineShape(pos=(240,285), size=(55,30),id="Format,tiff")
+        art.defineShape(pos=(240,285), size=(55,30),id="Format,tif")
         art.defineShape(pos=(305,285), size=(55,30),id="Format,mp4")
         art.defineShape(pos=(45,325), size=(55,30),id="Format,avi")
         art.defineShape(pos=(110,325), size=(55,30),id="Format,mov")
         art.defineShape(pos=(175,325), size=(55,30),id="Format,mkv")
-        #art.defineShape(pos=(240,325), size=(55,30))
-        #art.defineShape(pos=(305,325), size=(55,30))
+        art.defineShape(pos=(240,325), size=(55,30),id="Format,webp")
+        art.defineShape(pos=(305,325), size=(55,30),id="Format,wmv")
+        art.defineShape(pos=(45,365), size=(55,30),id="Format,flv")
+        art.defineShape(pos=(110,365), size=(55,30),id="Format,ogv")
+        art.defineShape(pos=(175,365), size=(55,30),id="Format,mpeg")
+        art.defineShape(pos=(240,365), size=(55,30),id="Format,m4v")
         art.defineText(text="Format:",pos=(40,251))
         art.defineText(text=f"PNG{" "*13}JPG{" "*13}JPEG{" "*12}BMP",pos=(124,255),size=12) 
-        art.defineText(text=f"WebP{" "*11}HEIC{" "*13}GIF{" "*15}TIFF{" "*13}mp4",pos=(57,295),size=12)
-        art.defineText(text=f"AVI{" "*14}MOV{" "*13}MKV",pos=(62,335),size=12)
+        art.defineText(text=f"WebP{" "*11}HEIC{" "*13}GIF{" "*16}TIF{" "*14}MP4",pos=(57,295),size=12)
+        art.defineText(text=f"AVI{" "*14}MOV{" "*13}MKV{" "*11}WEBP{" "*11}WMV",pos=(62,335),size=12)
+        art.defineText(text=f"FLV{" "*14}OGV{" "*12}MPEG{" "*11}M4V",pos=(62,375),size=12)
 
-        art.defineShape(pos=(40,423), size=(80,40), bevel=15,run_function="file_import()", id="OS,import")
+        art.defineShape(pos=(40,423), size=(80,40), bevel=15,run_function="file_import(self)", id="OS,import")
         art.defineShape(pos=(280,423), size=(80,40), bevel=15,run_function="file_export(self)", id="OS,export")
         art.defineText(text=f"Load{" "*49}Export",pos=(59,436))
 
-def file_import():
-    print("import")
+def file_import(art):
+    file_path = port.import_file()
+    name,res,color,format = port.fetch_data(file_path)
+    art.update(name,res,color,format)
+    art.info["Path"] = file_path
 
 def file_export(art):
-    name,x,y,color_space,format = art.read_gui_data()
+    data = art.read_gui_data()
+    port.save(data)
 
 def main():
     #initialization
@@ -156,8 +185,8 @@ def main():
     new_text = ""
     is_running = True
     is_typing = False
-    art = ArtObjects(screen)
-    art_init(art)
+    art = GUI(screen)
+    gui_init(art)
 
     #event loop
     while is_running:

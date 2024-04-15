@@ -1,0 +1,6 @@
+pygame
+tk
+moviepy
+cv2
+pillow
+pillow_heif
