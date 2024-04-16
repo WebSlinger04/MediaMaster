@@ -10,9 +10,9 @@ def fetch_data(file_path):
     cv2_file = cv2.VideoCapture(file_path[0])
     frame = cv2_file.read()[1]
 
-    name = str(os.path.basename(file_path[0])).split(".")[0]
+    name = os.path.splitext(os.path.basename(file_path[0]))[0]
     res = (int(cv2_file.get(cv2.CAP_PROP_FRAME_WIDTH)),int(cv2_file.get(cv2.CAP_PROP_FRAME_HEIGHT)))
-    format = str(file_path[0]).split(".")[1]
+    format = str(file_path[0]).split(".")[-1]
     try:
         if len(frame.shape) == 2:
             color_mode = "L"
@@ -75,9 +75,12 @@ def import_file():
 def save(data):
     is_image = ("png","jpg","jpeg","bmp","webp","heic","tif")
     export_path = filedialog.askdirectory()
-    if data["Format"] in is_image:
-        _save_image(data,export_path)
-    else:
-        _save_video(data,export_path)
-    os.startfile(export_path)
+    try:
+        if data["Format"] in is_image:
+            _save_image(data,export_path)
+        else:
+            _save_video(data,export_path)
+        os.startfile(export_path)
+    except Exception:
+        pass
 

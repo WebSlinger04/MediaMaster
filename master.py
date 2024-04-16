@@ -1,7 +1,7 @@
 import pygame
+import math
 
 import port
-
 class Shape():
     def __init__(self, pos, size, color, bevel, surface, run_function,id):
         self.surface = surface
@@ -15,9 +15,10 @@ class Shape():
         self.toggle_color = pygame.Color(0,60,60,255)
 
     def reset_color(self):
-        self.color = self.normal_color
+        self.color = self.normal_color 
 
     def clicked(self):
+
         self.color = self.toggle_color
 
     def draw(self):
@@ -35,7 +36,15 @@ class Text():
         self.id = id
         self.width = None
         self.height = None
+        self.age = 0
 
+    def blink(self,dt):
+        self.age += dt
+        if math.sin(math.radians(self.age/3)) > 0:
+            self.text = self.text + "|"
+        else:
+            pass
+    
     def draw(self):
         font = pygame.font.Font("freesansbold.ttf", self.size)
         text = font.render(self.text, True, "White")
@@ -69,6 +78,7 @@ class GUI():
         return False, None
     
     def update_import_data(self,name,res,color,format):
+        self._clear_shape_toggle("OS")
         self._clear_shape_toggle("Color_Space")
         self._clear_shape_toggle("Format")
         for text in self.text:
@@ -85,8 +95,10 @@ class GUI():
                 if split_id == color or split_id == format:
                     shape.color = shape.toggle_color
 
-    def edit_text(self, new_text, text):
+    def edit_text(self, new_text, text,dt):
         text.text = new_text
+        if dt != None:
+            text.blink(dt)
 
     def _clear_shape_toggle(self,id):
         for shape in self.shapes:
@@ -94,6 +106,7 @@ class GUI():
                 shape.reset_color()
          
     def read_gui_data(self):
+        self._clear_shape_toggle("OS")
         for text in self.text:
             if text.id != None:
                 self.info[text.id] = text.text
@@ -103,6 +116,7 @@ class GUI():
                 if group != "OS" and shape.color == shape.toggle_color:
                     self.info[group] = id
         return self.info
+
 
     def defineShape(self,pos, size, color=pygame.Color(0,102,102,255), bevel=25, run_function=None, id=None):
         shape = Shape(pos=pos,size=size, color=color,bevel=bevel,surface=self.surface, run_function=run_function,id=id)
@@ -190,6 +204,7 @@ def main():
     clock = pygame.time.Clock()
 
     new_text = ""
+    dt = 0
     is_running = True
     is_typing = False
     art = GUI(screen)
@@ -216,20 +231,21 @@ def main():
                         is_typing = False
                     else:
                         new_text += pygame.key.name(event.key)
-                art.edit_text(new_text=new_text + "|", text=text)
 
                 if is_typing == False:
-                    art.edit_text(new_text=new_text, text=text)
+                    art.edit_text(new_text=new_text, text=text,dt=None)
                     if len(new_text) == 0:
-                        art.edit_text(new_text="____", text=text)
+                        art.edit_text(new_text="____", text=text,dt=None)
                     new_text = ""
                     
 
     #Game loop
+        if is_typing:
+            art.edit_text(new_text=new_text, text=text,dt=dt)
         screen.fill(pygame.Color(30,30,30,255))
         art.draw()
         pygame.display.flip()
-        clock.tick(12)
+        dt = clock.tick(12)
     pygame.quit()
 
 
