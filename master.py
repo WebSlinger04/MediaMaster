@@ -67,7 +67,9 @@ class GUI():
                     shape.pos[1] < pos[1] and (shape.pos[1] + shape.size[1]) > pos[1]):
                         self._clear_shape_toggle(shape.id)
                         shape.clicked()
-                        exec(f"{shape.run_function}")
+                        if shape.id == "OS,export":
+                            self.loading_icon(pos=(180,430),id="Load,None")
+                        return shape.run_function
 
     def check_text_clicked(self,pos):
         for text in self.text:
@@ -117,12 +119,20 @@ class GUI():
                     self.info[group] = id
         return self.info
 
+    def loading_icon(self,pos,id):
+        self.define_shape(pos=pos,size=(30,30),color="White",bevel=30,id=id)
+        self.define_shape(pos=(pos[0]+5,pos[1]+5),size=(20,20),color=pygame.Color(25,25,25,0),bevel=30,id=id)
 
-    def defineShape(self,pos, size, color=pygame.Color(0,102,102,255), bevel=25, run_function=None, id=None):
+    def load_destroy(self):
+        for shape in self.shapes:
+            if shape.id == "Load,None":
+                self.shapes.remove(shape)
+
+    def define_shape(self,pos, size, color=pygame.Color(0,102,102,255), bevel=25, run_function=None, id=None):
         shape = Shape(pos=pos,size=size, color=color,bevel=bevel,surface=self.surface, run_function=run_function,id=id)
         self.shapes.append(shape)
         
-    def defineText(self, text, pos, size=16,id=None):
+    def define_text(self, text, pos, size=16,id=None):
         text = Text(text=text, pos=pos, size=size, surface=self.surface, id=id)
         self.text.append(text)
 
@@ -134,56 +144,55 @@ class GUI():
 
 
 def gui_init(art):
+        art.define_shape(pos=(20,20), size=(360,460), color=pygame.Color(25,25,25,255), bevel=30)
+        art.define_shape(pos=(25,88), size=(350,40), color=pygame.Color(40,40,40,255), bevel=20)
+        art.define_text(text="MediaMaster:",pos=(15,15),size=24)
+        art.define_text(text="Name:",pos=(40,101))
+        art.define_text(text="____",pos=(100,101),id="Name")
+
+        art.define_shape(pos=(25,138), size=(350,40), color=pygame.Color(40,40,40,255), bevel=20)
+        art.define_shape(pos=(160,143), size=(70,30))
+        art.define_shape(pos=(280,143), size=(70,30))
+        art.define_text(text="X",pos=(250,151),size=14)
+        art.define_text(text="____",pos=(175,151),id="X")
+        art.define_text(text="____",pos=(295,151),id="Y")
+        art.define_text(text="Resolution:",pos=(40,151))
         
-        art.defineShape(pos=(20,20), size=(360,460), color=pygame.Color(25,25,25,255), bevel=30)
-        art.defineShape(pos=(25,88), size=(350,40), color=pygame.Color(40,40,40,255), bevel=20)
-        art.defineText(text="MediaMaster:",pos=(15,15),size=24)
-        art.defineText(text="Name:",pos=(40,101))
-        art.defineText(text="____",pos=(100,101),id="Name")
+        art.define_shape(pos=(25,188), size=(350,40), color=pygame.Color(40,40,40,255), bevel=20)
+        art.define_shape(pos=(155,193), size=(60,30),id="Color_Space,RGB")
+        art.define_shape(pos=(225,193), size=(60,30),id="Color_Space,RGBA")
+        art.define_shape(pos=(295,193), size=(60,30),id="Color_Space,L")
+        art.define_text(text="Color Space:",pos=(40,201))
+        art.define_text(text=f"RGB{" "*13}RGBA{" "*12}Grey",pos=(172,202),size=12)
 
-        art.defineShape(pos=(25,138), size=(350,40), color=pygame.Color(40,40,40,255), bevel=20)
-        art.defineShape(pos=(160,143), size=(70,30))
-        art.defineShape(pos=(280,143), size=(70,30))
-        art.defineText(text="X",pos=(250,151),size=14)
-        art.defineText(text="____",pos=(175,151),id="X")
-        art.defineText(text="____",pos=(295,151),id="Y")
-        art.defineText(text="Resolution:",pos=(40,151))
-        
-        art.defineShape(pos=(25,188), size=(350,40), color=pygame.Color(40,40,40,255), bevel=20)
-        art.defineShape(pos=(155,193), size=(60,30),id="Color_Space,RGB")
-        art.defineShape(pos=(225,193), size=(60,30),id="Color_Space,RGBA")
-        art.defineShape(pos=(295,193), size=(60,30),id="Color_Space,L")
-        art.defineText(text="Color Space:",pos=(40,201))
-        art.defineText(text=f"RGB{" "*13}RGBA{" "*12}Grey",pos=(172,202),size=12)
+        art.define_shape(pos=(25,238), size=(350,165), color=pygame.Color(40,40,40,255), bevel=20)
+        art.define_shape(pos=(110,245), size=(55,30),id="Format,png")
+        art.define_shape(pos=(175,245), size=(55,30),id="Format,jpg")
+        art.define_shape(pos=(240,245), size=(55,30),id="Format,jpeg")
+        art.define_shape(pos=(305,245), size=(55,30),id="Format,bmp")
+        art.define_shape(pos=(45,285), size=(55,30),id="Format,webp")
+        art.define_shape(pos=(110,285), size=(55,30),id="Format,heic")
+        art.define_shape(pos=(175,285), size=(55,30),id="Format,gif")
+        art.define_shape(pos=(240,285), size=(55,30),id="Format,tif")
+        art.define_shape(pos=(305,285), size=(55,30),id="Format,mp4")
+        art.define_shape(pos=(45,325), size=(55,30),id="Format,avi")
+        art.define_shape(pos=(110,325), size=(55,30),id="Format,mov")
+        art.define_shape(pos=(175,325), size=(55,30),id="Format,mkv")
+        art.define_shape(pos=(240,325), size=(55,30),id="Format,webp")
+        art.define_shape(pos=(305,325), size=(55,30),id="Format,wmv")
+        art.define_shape(pos=(45,365), size=(55,30),id="Format,flv")
+        art.define_shape(pos=(110,365), size=(55,30),id="Format,ogv")
+        art.define_shape(pos=(175,365), size=(55,30),id="Format,mpeg")
+        art.define_shape(pos=(240,365), size=(55,30),id="Format,m4v")
+        art.define_text(text="Format:",pos=(40,251))
+        art.define_text(text=f"PNG{" "*13}JPG{" "*13}JPEG{" "*12}BMP",pos=(124,255),size=12) 
+        art.define_text(text=f"WebP{" "*11}HEIC{" "*13}GIF{" "*16}TIF{" "*14}MP4",pos=(57,295),size=12)
+        art.define_text(text=f"AVI{" "*14}MOV{" "*13}MKV{" "*11}WEBP{" "*11}WMV",pos=(62,335),size=12)
+        art.define_text(text=f"FLV{" "*14}OGV{" "*12}MPEG{" "*11}M4V",pos=(62,375),size=12)
 
-        art.defineShape(pos=(25,238), size=(350,165), color=pygame.Color(40,40,40,255), bevel=20)
-        art.defineShape(pos=(110,245), size=(55,30),id="Format,png")
-        art.defineShape(pos=(175,245), size=(55,30),id="Format,jpg")
-        art.defineShape(pos=(240,245), size=(55,30),id="Format,jpeg")
-        art.defineShape(pos=(305,245), size=(55,30),id="Format,bmp")
-        art.defineShape(pos=(45,285), size=(55,30),id="Format,webp")
-        art.defineShape(pos=(110,285), size=(55,30),id="Format,heic")
-        art.defineShape(pos=(175,285), size=(55,30),id="Format,gif")
-        art.defineShape(pos=(240,285), size=(55,30),id="Format,tif")
-        art.defineShape(pos=(305,285), size=(55,30),id="Format,mp4")
-        art.defineShape(pos=(45,325), size=(55,30),id="Format,avi")
-        art.defineShape(pos=(110,325), size=(55,30),id="Format,mov")
-        art.defineShape(pos=(175,325), size=(55,30),id="Format,mkv")
-        art.defineShape(pos=(240,325), size=(55,30),id="Format,webp")
-        art.defineShape(pos=(305,325), size=(55,30),id="Format,wmv")
-        art.defineShape(pos=(45,365), size=(55,30),id="Format,flv")
-        art.defineShape(pos=(110,365), size=(55,30),id="Format,ogv")
-        art.defineShape(pos=(175,365), size=(55,30),id="Format,mpeg")
-        art.defineShape(pos=(240,365), size=(55,30),id="Format,m4v")
-        art.defineText(text="Format:",pos=(40,251))
-        art.defineText(text=f"PNG{" "*13}JPG{" "*13}JPEG{" "*12}BMP",pos=(124,255),size=12) 
-        art.defineText(text=f"WebP{" "*11}HEIC{" "*13}GIF{" "*16}TIF{" "*14}MP4",pos=(57,295),size=12)
-        art.defineText(text=f"AVI{" "*14}MOV{" "*13}MKV{" "*11}WEBP{" "*11}WMV",pos=(62,335),size=12)
-        art.defineText(text=f"FLV{" "*14}OGV{" "*12}MPEG{" "*11}M4V",pos=(62,375),size=12)
-
-        art.defineShape(pos=(40,423), size=(80,40), bevel=15,run_function="file_import(self)", id="OS,import")
-        art.defineShape(pos=(280,423), size=(80,40), bevel=15,run_function="file_export(self)", id="OS,export")
-        art.defineText(text=f"Load{" "*49}Export",pos=(59,436))
+        art.define_shape(pos=(40,423), size=(80,40), bevel=15,run_function="file_import(art)", id="OS,import")
+        art.define_shape(pos=(280,423), size=(80,40), bevel=15,run_function="file_export(art)", id="OS,export")
+        art.define_text(text=f"Load{" "*49}Export",pos=(59,436))
 
 def file_import(art):
     file_path = port.import_file()
@@ -194,6 +203,7 @@ def file_import(art):
 def file_export(art):
     data = art.read_gui_data()
     port.save(data)
+    art.load_destroy()
 
 def main():
     #initialization
@@ -207,6 +217,7 @@ def main():
     dt = 0
     is_running = True
     is_typing = False
+    run_function = None
     art = GUI(screen)
     gui_init(art)
 
@@ -217,7 +228,7 @@ def main():
                 is_running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
-                art.check_shape_clicked(pos)
+                run_function = art.check_shape_clicked(pos)
                 if is_typing == False:
                     is_typing,text = art.check_text_clicked(pos)
 
@@ -245,6 +256,8 @@ def main():
         screen.fill(pygame.Color(30,30,30,255))
         art.draw()
         pygame.display.flip()
+        exec(f"{run_function}")
+        run_function = None
         dt = clock.tick(12)
     pygame.quit()
 
