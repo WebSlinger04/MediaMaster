@@ -11,6 +11,14 @@ class Shape():
         self.bevel = bevel
         self.run_function = run_function
         self.id = id
+        self.normal_color = color
+        self.toggle_color = pygame.Color(0,60,60,255)
+
+    def reset_color(self):
+        self.color = self.normal_color
+
+    def clicked(self):
+        self.color = self.toggle_color
 
     def draw(self):
             pygame.draw.rect(self.surface, self.color, 
@@ -49,7 +57,7 @@ class GUI():
                 if (shape.pos[0] < pos[0] and (shape.pos[0] + shape.size[0]) > pos[0] and 
                     shape.pos[1] < pos[1] and (shape.pos[1] + shape.size[1]) > pos[1]):
                         self._clear_shape_toggle(shape.id)
-                        shape.color = pygame.Color(0,60,60,255)
+                        shape.clicked()
                         exec(f"{shape.run_function}")
 
     def check_text_clicked(self,pos):
@@ -60,23 +68,22 @@ class GUI():
                         return True,text
         return False, None
     
-    def update(self,name,res,color,format):
+    def update_import_data(self,name,res,color,format):
         self._clear_shape_toggle("Color_Space")
         self._clear_shape_toggle("Format")
         for text in self.text:
             if text.id != None:
                 if text.id == "Name":
                     text.text = str(name)
-                if text.id == "X":
+                elif text.id == "X":
                     text.text = str(res[0])
-                if text.id == "Y":
+                elif text.id == "Y":
                     text.text = str(res[1])
         for shape in self.shapes:
             if shape.id != None:
-                if shape.id.split(",")[1] == color:
-                    shape.color = pygame.Color(0,60,60,255)
-                if shape.id.split(",")[1] == format:
-                    shape.color = pygame.Color(0,60,60,255)
+                split_id = shape.id.split(",")[1]
+                if split_id == color or split_id == format:
+                    shape.color = shape.toggle_color
 
     def edit_text(self, new_text, text):
         text.text = new_text
@@ -84,7 +91,7 @@ class GUI():
     def _clear_shape_toggle(self,id):
         for shape in self.shapes:
             if str(shape.id).split(",")[0] == str(id).split(",")[0]:
-                shape.color = pygame.Color(0,102,102,255)
+                shape.reset_color()
          
     def read_gui_data(self):
         for text in self.text:
@@ -93,7 +100,7 @@ class GUI():
         for shape in self.shapes:
             if shape.id != None:
                 group,id = str(shape.id).split(",")
-                if group != "OS" and shape.color == pygame.Color(0,60,60,255):
+                if group != "OS" and shape.color == shape.toggle_color:
                     self.info[group] = id
         return self.info
 
@@ -167,7 +174,7 @@ def gui_init(art):
 def file_import(art):
     file_path = port.import_file()
     name,res,color,format = port.fetch_data(file_path)
-    art.update(name,res,color,format)
+    art.update_import_data(name,res,color,format)
     art.info["Path"] = file_path
 
 def file_export(art):

@@ -9,6 +9,7 @@ import os
 def fetch_data(file_path):
     cv2_file = cv2.VideoCapture(file_path[0])
     frame = cv2_file.read()[1]
+
     name = str(os.path.basename(file_path[0])).split(".")[0]
     res = (int(cv2_file.get(cv2.CAP_PROP_FRAME_WIDTH)),int(cv2_file.get(cv2.CAP_PROP_FRAME_HEIGHT)))
     format = str(file_path[0]).split(".")[1]
@@ -21,8 +22,10 @@ def fetch_data(file_path):
             color_mode = "RGB"
     except Exception:
             color_mode = "RGB"
+
     cv2_file.release()
     return name,res,color_mode,format
+
 
 def _save_image(data,export_path):
     register_heif_opener()
@@ -31,9 +34,8 @@ def _save_image(data,export_path):
         new_image = new_image.convert(data["Color_Space"],palette=Image.Palette.ADAPTIVE)
         new_image.save(f"{export_path}/{data["Name"]}.{data["Format"]}")
 
+
 def _save_video(data,export_path):
-    amount_of_frames = len(list(data["Path"]))
-    is_sequence = amount_of_frames > 1
     vid_codec = {"mp4":"mpeg4", "avi":"rawvideo",
                 "mov":"libx264", "mkv":"libx264",
                 "webm":"libvpx", "wmv":"libvpx",
@@ -44,16 +46,19 @@ def _save_video(data,export_path):
                   "webm":"vorbis", "wmv":"wma",
                   "flv":"aac", "ogv":"vorbis",
                   "mpeg":"mp3", "m4v":"aac"}
-    if is_sequence:
+    
+    amount_of_frames = len(list(data["Path"]))
+    if amount_of_frames > 1:
         img_seq = list(data["Path"])
         img_seq.sort()
-        fps = 24
-        clip = moviepy.ImageSequenceClip(img_seq, fps=fps)
+        clip = moviepy.ImageSequenceClip(img_seq, fps=24)
     else:
         clip = moviepy.VideoFileClip(data["Path"][0])
+
     clip = clip.resize(([int(data["X"]),int(data["Y"])]))
     if data["Color_Space"] == "L":
         clip = clip.fx(vfx.blackwhite)
+
     if data["Format"] == "gif":
         clip.write_gif(f"{export_path}/{data["Name"]}.{data["Format"]}")
     else:
