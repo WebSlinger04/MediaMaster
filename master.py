@@ -195,10 +195,13 @@ def gui_init(art):
         art.define_text(text=f"Load{" "*49}Export",pos=(59,436))
 
 def file_import(art):
-    file_path = port.import_file()
-    name,res,color,format = port.fetch_data(file_path)
-    art.update_import_data(name,res,color,format)
-    art.info["Path"] = file_path
+    try:
+        file_path = port.import_file()
+        name,res,color,format = port.fetch_data(file_path)
+        art.update_import_data(name,res,color,format)
+        art.info["Path"] = file_path
+    except Exception:
+        pass
 
 def file_export(art):
     data = art.read_gui_data()
