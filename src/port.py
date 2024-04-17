@@ -8,7 +8,7 @@ import os
 
 
 def _fetch_data(file_path):
-    """Returns an integer rounded up to the nearest integer.
+    """Gathers data about inputed file
 
     :param str file_path: the imported file path
 
