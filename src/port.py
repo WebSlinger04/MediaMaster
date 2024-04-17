@@ -59,13 +59,13 @@ def _save_video(data,export_path):
     """
     vid_codec = {"mp4":"mpeg4", "avi":"rawvideo",
                 "mov":"libx264", "mkv":"libx264",
-                "webm":"libvpx", "wmv":"libvpx",
+                "webm":"libvpx", "3gp":"libx264",
                 "flv":"libx264", "ogv":"libtheora",
                 "mpeg":"libx264", "m4v":"libx264"}
     audio_codec = {"mp4":"aac", "avi":"mp3",
                   "mov":"aac", "mkv":"aac",
-                  "webm":"vorbis", "wmv":"wma",
-                  "flv":"aac", "ogv":"vorbis",
+                  "webm":"libvorbis", "3gp":"aac",
+                  "flv":"aac", "ogv":"libvorbis",
                   "mpeg":"mp3", "m4v":"aac"}
     
     amount_of_frames = len(list(data["Path"]))
