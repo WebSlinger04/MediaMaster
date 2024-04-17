@@ -57,7 +57,7 @@ def _save_video(data,export_path):
 
     :param str export_path: the path to export file to
     """
-    vid_codec = {"mp4":"mpeg4", "avi":"rawvideo",
+    vid_codec = {"mp4":"libx264", "avi":"rawvideo",
                 "mov":"libx264", "mkv":"libx264",
                 "webm":"libvpx", "3gp":"libx264",
                 "flv":"libx264", "ogv":"libtheora",
@@ -72,7 +72,7 @@ def _save_video(data,export_path):
     if amount_of_frames > 1:
         img_seq = list(data["Path"])
         img_seq.sort()
-        clip = moviepy.ImageSequenceClip(img_seq, fps=24)
+        clip = moviepy.ImageSequenceClip(img_seq,fps=24)
     else:
         clip = moviepy.VideoFileClip(data["Path"][0])
 
@@ -81,12 +81,10 @@ def _save_video(data,export_path):
         clip = clip.fx(vfx.blackwhite)
 
     if data["Format"] == "gif":
-        clip.write_gif(f"{export_path}/{data["Name"]}.{data["Format"]}")
-    elif amount_of_frames > 1:
-        clip.write_videofile(f"{export_path}/{data["Name"]}.{data["Format"]}")
+        clip.write_gif(f"{export_path}/{data["Name"]}.{data["Format"]}",remove_temp=True)
     else:
         clip.write_videofile(f"{export_path}/{data["Name"]}.{data["Format"]}",
-                             codec=vid_codec[data["Format"]],audio_codec=audio_codec[data["Format"]])
+                             codec=vid_codec[data["Format"]],audio_codec=audio_codec[data["Format"]],remove_temp=True)
     clip.close
 
 

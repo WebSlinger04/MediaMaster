@@ -130,7 +130,7 @@ class GUI():
 
     def loading_icon(self,pos,id):
         self.define_shape(pos=pos,size=(30,30),color="White",bevel=30,id=id)
-        self.define_shape(pos=(pos[0]+5,pos[1]+5),size=(20,20),color=pygame.Color(25,25,25,0),bevel=30,id=id)
+        self.define_shape(pos=(pos[0]+5,pos[1]+5),size=(20,20),color=pygame.Color(25,25,25,0),bevel=30)
 
     def load_destroy(self):
         for shape in self.shapes:
