@@ -82,6 +82,8 @@ def _save_video(data,export_path):
 
     if data["Format"] == "gif":
         clip.write_gif(f"{export_path}/{data["Name"]}.{data["Format"]}")
+    elif amount_of_frames > 1:
+        clip.write_videofile(f"{export_path}/{data["Name"]}.{data["Format"]}")
     else:
         clip.write_videofile(f"{export_path}/{data["Name"]}.{data["Format"]}",
                              codec=vid_codec[data["Format"]],audio_codec=audio_codec[data["Format"]])
