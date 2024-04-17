@@ -6,6 +6,8 @@ import port
 
 
 class Shape():
+    """object for creating shapes"""
+
     def __init__(self, pos, size, color, bevel, surface, run_function,id):
         self.surface = surface
         self.pos = pos
@@ -31,6 +33,8 @@ class Shape():
 
 
 class Text():
+    """object for creating text"""
+
     def __init__(self,text,pos,size,surface,id):
         self.surface = surface
         self.text = text
@@ -57,6 +61,8 @@ class Text():
 
 
 class GUI():
+    """object for managing the GUI"""
+    
     def __init__(self,surface):
         self.surface = surface
         self.shapes = []
