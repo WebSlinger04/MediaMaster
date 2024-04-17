@@ -32,7 +32,7 @@ def _fetch_data(file_path):
             color_mode = "RGB"
 
     cv2_file.release()
-    data = name,res,color_mode,format
+    data = [name,res,color_mode,format,file_path]
     return data
 
 
@@ -95,8 +95,7 @@ def import_file():
     :rtype: list
     """
     file_path = filedialog.askopenfilenames()
-    data = _fetch_data
-    data.append(file_path)
+    data = _fetch_data(file_path)
     return data
 
 
