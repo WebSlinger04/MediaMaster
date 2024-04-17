@@ -147,57 +147,65 @@ class GUI():
 
 
 def gui_init(art):
-        art.define_shape(pos=(20,20), size=(360,460), color=pygame.Color(25,25,25,255), bevel=30)
-        art.define_shape(pos=(25,88), size=(350,40), color=pygame.Color(40,40,40,255), bevel=20)
-        art.define_text(text="MediaMaster:",pos=(15,15),size=24)
-        art.define_text(text="Name:",pos=(40,101))
-        art.define_text(text="____",pos=(100,101),id="Name")
+    """creates all the assets for the GUI
 
-        art.define_shape(pos=(25,138), size=(350,40), color=pygame.Color(40,40,40,255), bevel=20)
-        art.define_shape(pos=(160,143), size=(70,30))
-        art.define_shape(pos=(280,143), size=(70,30))
-        art.define_text(text="X",pos=(250,151),size=14)
-        art.define_text(text="____",pos=(175,151),id="X")
-        art.define_text(text="____",pos=(295,151),id="Y")
-        art.define_text(text="Resolution:",pos=(40,151))
-        
-        art.define_shape(pos=(25,188), size=(350,40), color=pygame.Color(40,40,40,255), bevel=20)
-        art.define_shape(pos=(155,193), size=(60,30),id="Color_Space,RGB")
-        art.define_shape(pos=(225,193), size=(60,30),id="Color_Space,RGBA")
-        art.define_shape(pos=(295,193), size=(60,30),id="Color_Space,L")
-        art.define_text(text="Color Space:",pos=(40,201))
-        art.define_text(text=f"RGB{" "*13}RGBA{" "*12}Grey",pos=(172,202),size=12)
+    :param class art: the gui object
+    """
+    art.define_shape(pos=(20,20), size=(360,460), color=pygame.Color(25,25,25,255), bevel=30)
+    art.define_shape(pos=(25,88), size=(350,40), color=pygame.Color(40,40,40,255), bevel=20)
+    art.define_text(text="MediaMaster:",pos=(15,15),size=24)
+    art.define_text(text="Name:",pos=(40,101))
+    art.define_text(text="____",pos=(100,101),id="Name")
 
-        art.define_shape(pos=(25,238), size=(350,165), color=pygame.Color(40,40,40,255), bevel=20)
-        art.define_shape(pos=(110,245), size=(55,30),id="Format,png")
-        art.define_shape(pos=(175,245), size=(55,30),id="Format,jpg")
-        art.define_shape(pos=(240,245), size=(55,30),id="Format,jpeg")
-        art.define_shape(pos=(305,245), size=(55,30),id="Format,bmp")
-        art.define_shape(pos=(45,285), size=(55,30),id="Format,webp")
-        art.define_shape(pos=(110,285), size=(55,30),id="Format,heic")
-        art.define_shape(pos=(175,285), size=(55,30),id="Format,gif")
-        art.define_shape(pos=(240,285), size=(55,30),id="Format,tif")
-        art.define_shape(pos=(305,285), size=(55,30),id="Format,mp4")
-        art.define_shape(pos=(45,325), size=(55,30),id="Format,avi")
-        art.define_shape(pos=(110,325), size=(55,30),id="Format,mov")
-        art.define_shape(pos=(175,325), size=(55,30),id="Format,mkv")
-        art.define_shape(pos=(240,325), size=(55,30),id="Format,webp")
-        art.define_shape(pos=(305,325), size=(55,30),id="Format,wmv")
-        art.define_shape(pos=(45,365), size=(55,30),id="Format,flv")
-        art.define_shape(pos=(110,365), size=(55,30),id="Format,ogv")
-        art.define_shape(pos=(175,365), size=(55,30),id="Format,mpeg")
-        art.define_shape(pos=(240,365), size=(55,30),id="Format,m4v")
-        art.define_text(text="Format:",pos=(40,251))
-        art.define_text(text=f"PNG{" "*13}JPG{" "*13}JPEG{" "*12}BMP",pos=(124,255),size=12) 
-        art.define_text(text=f"WebP{" "*11}HEIC{" "*13}GIF{" "*16}TIF{" "*14}MP4",pos=(57,295),size=12)
-        art.define_text(text=f"AVI{" "*14}MOV{" "*13}MKV{" "*11}WEBP{" "*11}WMV",pos=(62,335),size=12)
-        art.define_text(text=f"FLV{" "*14}OGV{" "*12}MPEG{" "*11}M4V",pos=(62,375),size=12)
+    art.define_shape(pos=(25,138), size=(350,40), color=pygame.Color(40,40,40,255), bevel=20)
+    art.define_shape(pos=(160,143), size=(70,30))
+    art.define_shape(pos=(280,143), size=(70,30))
+    art.define_text(text="X",pos=(250,151),size=14)
+    art.define_text(text="____",pos=(175,151),id="X")
+    art.define_text(text="____",pos=(295,151),id="Y")
+    art.define_text(text="Resolution:",pos=(40,151))
+    
+    art.define_shape(pos=(25,188), size=(350,40), color=pygame.Color(40,40,40,255), bevel=20)
+    art.define_shape(pos=(155,193), size=(60,30),id="Color_Space,RGB")
+    art.define_shape(pos=(225,193), size=(60,30),id="Color_Space,RGBA")
+    art.define_shape(pos=(295,193), size=(60,30),id="Color_Space,L")
+    art.define_text(text="Color Space:",pos=(40,201))
+    art.define_text(text=f"RGB{" "*13}RGBA{" "*12}Grey",pos=(172,202),size=12)
 
-        art.define_shape(pos=(40,423), size=(80,40), bevel=15,run_function="file_import(art)", id="OS,import")
-        art.define_shape(pos=(280,423), size=(80,40), bevel=15,run_function="file_export(art)", id="OS,export")
-        art.define_text(text=f"Load{" "*49}Export",pos=(59,436))
+    art.define_shape(pos=(25,238), size=(350,165), color=pygame.Color(40,40,40,255), bevel=20)
+    art.define_shape(pos=(110,245), size=(55,30),id="Format,png")
+    art.define_shape(pos=(175,245), size=(55,30),id="Format,jpg")
+    art.define_shape(pos=(240,245), size=(55,30),id="Format,jpeg")
+    art.define_shape(pos=(305,245), size=(55,30),id="Format,bmp")
+    art.define_shape(pos=(45,285), size=(55,30),id="Format,webp")
+    art.define_shape(pos=(110,285), size=(55,30),id="Format,heic")
+    art.define_shape(pos=(175,285), size=(55,30),id="Format,gif")
+    art.define_shape(pos=(240,285), size=(55,30),id="Format,tif")
+    art.define_shape(pos=(305,285), size=(55,30),id="Format,mp4")
+    art.define_shape(pos=(45,325), size=(55,30),id="Format,avi")
+    art.define_shape(pos=(110,325), size=(55,30),id="Format,mov")
+    art.define_shape(pos=(175,325), size=(55,30),id="Format,mkv")
+    art.define_shape(pos=(240,325), size=(55,30),id="Format,webp")
+    art.define_shape(pos=(305,325), size=(55,30),id="Format,wmv")
+    art.define_shape(pos=(45,365), size=(55,30),id="Format,flv")
+    art.define_shape(pos=(110,365), size=(55,30),id="Format,ogv")
+    art.define_shape(pos=(175,365), size=(55,30),id="Format,mpeg")
+    art.define_shape(pos=(240,365), size=(55,30),id="Format,m4v")
+    art.define_text(text="Format:",pos=(40,251))
+    art.define_text(text=f"PNG{" "*13}JPG{" "*13}JPEG{" "*12}BMP",pos=(124,255),size=12) 
+    art.define_text(text=f"WebP{" "*11}HEIC{" "*13}GIF{" "*16}TIF{" "*14}MP4",pos=(57,295),size=12)
+    art.define_text(text=f"AVI{" "*14}MOV{" "*13}MKV{" "*11}WEBP{" "*11}WMV",pos=(62,335),size=12)
+    art.define_text(text=f"FLV{" "*14}OGV{" "*12}MPEG{" "*11}M4V",pos=(62,375),size=12)
+
+    art.define_shape(pos=(40,423), size=(80,40), bevel=15,run_function="file_import(art)", id="OS,import")
+    art.define_shape(pos=(280,423), size=(80,40), bevel=15,run_function="file_export(art)", id="OS,export")
+    art.define_text(text=f"Load{" "*49}Export",pos=(59,436))
 
 def file_import(art):
+    """calls the import function and passes the data to the GUI
+
+    :param class art: the gui object
+    """
     try:
         name,res,color,format,file_path = port.import_file()
         art.update_import_data(name,res,color,format)
@@ -206,8 +214,12 @@ def file_import(art):
         pass
 
 def file_export(art):
+    """reads gui data then calls for export
+
+    :param class art: the gui object
+    """
     data = art.read_gui_data()
-    port.save(data)
+    port.export_file(data)
     art.load_destroy()
 
 def main():

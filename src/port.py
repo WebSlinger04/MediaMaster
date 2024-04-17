@@ -99,7 +99,7 @@ def import_file():
     return data
 
 
-def save(data):
+def export_file(data):
     """selects a path to export to and calls the respective save function
 
     :param list data: data from GUI
