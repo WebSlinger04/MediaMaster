@@ -199,8 +199,7 @@ def gui_init(art):
 
 def file_import(art):
     try:
-        file_path = port.import_file()
-        name,res,color,format = port.fetch_data(file_path)
+        name,res,color,format,file_path = port.import_file()
         art.update_import_data(name,res,color,format)
         art.info["Path"] = file_path
     except Exception:

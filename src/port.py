@@ -7,7 +7,14 @@ import cv2
 import os
 
 
-def fetch_data(file_path):
+def _fetch_data(file_path):
+    """Returns an integer rounded up to the nearest integer.
+
+    :param str file_path: the imported file path
+
+    :returns: data about imported file
+    :rtype: list
+    """
     cv2_file = cv2.VideoCapture(file_path[0])
     frame = cv2_file.read()[1]
 
@@ -25,10 +32,17 @@ def fetch_data(file_path):
             color_mode = "RGB"
 
     cv2_file.release()
-    return name,res,color_mode,format
+    data = name,res,color_mode,format
+    return data
 
 
 def _save_image(data,export_path):
+    """saves an image
+
+    :param list data: data from GUI
+
+    :param str export_path: the path to export file to
+    """
     register_heif_opener()
     with Image.open(data["Path"][0]) as image:
         new_image = image.resize(([int(data["X"]),int(data["Y"])]))
@@ -37,6 +51,12 @@ def _save_image(data,export_path):
 
 
 def _save_video(data,export_path):
+    """saves an video/sequence
+
+    :param list data: data from GUI
+
+    :param str export_path: the path to export file to
+    """
     vid_codec = {"mp4":"mpeg4", "avi":"rawvideo",
                 "mov":"libx264", "mkv":"libx264",
                 "webm":"libvpx", "wmv":"libvpx",
@@ -69,11 +89,22 @@ def _save_video(data,export_path):
 
 
 def import_file():
+    """selects a file to import
+
+    :returns: data about imported file
+    :rtype: list
+    """
     file_path = filedialog.askopenfilenames()
-    return file_path
+    data = _fetch_data
+    data.append(file_path)
+    return data
 
 
 def save(data):
+    """selects a path to export to and calls the respective save function
+
+    :param list data: data from GUI
+    """
     is_image = ("png","jpg","jpeg","bmp","webp","heic","tif")
     export_path = filedialog.askdirectory()
     try:
