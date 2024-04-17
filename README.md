@@ -10,14 +10,14 @@ A tool written in Python to convert media files between different formats. Is ac
 - Create videos from image sequences
 - Controlled through a GUI
 
-# Installing
-
-Install the required python packages stored in requirements .txt
-
-    pip install -r requirments.txt
-
 # Deployment
 
-run the master.py file
+run the project.exe
 
-    python master.py
+    ./project.exe
+
+# Installing packages for python file
+
+Install the required python packages stored in requirements .txt to run the python file
+
+    pip install -r requirments.txt
