@@ -6,7 +6,9 @@ A tool written in Python to convert media files between different formats. Is ac
 
 - Displays info about media filess
 - Change media files resolution, name, and color space
-- Convert images/and videos to formats: (TBD)
+- Convert images/and videos to formats:
+    - png, jpg, jpeg, bmp, webp, heic, tif
+    - gif, mp4, avi, mov, mkv, webm, 3gp, flv, ogv, mpeg, m4v
 - Create videos from image sequences
 - Controlled through a GUI
 
